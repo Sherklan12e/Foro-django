@@ -1,0 +1,105 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block title %}
+    Profile
+{% endblock %}
+    
+
+{% block content %}
+<div class="grid gap-x-8 gap-y-4 grid-cols-1 p-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
+    <div class="sm:mb-4 md:mb-4 lg:mb-4 xl:mx-10 2xl:mx-10">
+        <div class="bg-green-900 rounded-lg">
+            <h1 class=" text-xl p-6 font-semibold font-mono text-center text-claro">
+                Personal details
+            </h1>
+            <div class="grid gap-x-8 gap-y-4 grid-cols-1 p-4 sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2">
+                <div class="ml-5 mb-8">
+                    <img class="w-40 h-40 rounded-full" src="{{ user.avatar.url }}" alt="{{ user.username}}">
+                </div>
+                <div class="">
+                    <p class="mb-2 font-mono font-semibold flex text-black decoration-black">
+                        username:  <span class="text-sky-500">{{ user.username }}</span> 
+                    </p>
+                    
+                    <p class="mb-2 font-mono font-semibold flex text-black decoration-black">
+                        Email:  <span class="text-sky-500">{{ user.email }}</span> 
+                    </p>
+                    <p class="mb-2 font-mono font-semibold flex text-black decoration-black">
+                        Biografia:  <span class="text-sky-500">{{ user.bio }}</span> 
+                    </p>
+                    
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <div>
+        <div class="mb-4">
+            <div class="bg-black p-3 rounded-lg">
+                <h1 class="text-xl p-2 text-centerfont-mono font-semibold text-green-300">Hosted Rooms</h1>
+
+            </div>
+
+        </div>
+        
+        {% for room in rooms %}
+            
+        
+            
+        <div class="my-2">
+            <div class="bg-yellow-900 p-2 rounded-lg ">
+                    <h1 class="text-xl p-2 text-center font-mono font-semibold text-blue-300">
+                            {{ room.name}}
+
+                    </h1>
+                    <div class="flex justify-center">
+                            <a href="{% url 'room' room.id %}" class="p-3 font-mono font-semibold text-blue-300 rounded-lg bg-red-500">   Enter  </a>
+                            <form class="ml-2" method="POST" action="{% url 'like_room' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="room_id" value="{{ room.id }}">
+                                
+                                {% if user not in room.like.all %}
+                                
+                                
+                                <button type="submit">
+                                        <img width="40" height="40" src="{% static 'images/love.png' %}" alt="">
+
+                                </button>
+                                {% else %}
+                                <button type="submit">
+                                        <img width="40" height="40" src="{% static 'images/heart.png' %}" alt="">
+                                </button>
+                                {% endif %}
+                        </form>
+
+                    </div>
+                    <div class="flex justify-center">
+                            <p class="text-sm font-mono font-semibold p-2 text-blue-300">
+                                    Host:
+                                    <a class="text-sm font-mono hover:text-green-300 font-semibold text-blue-300" href="">
+                                        {{ room.user.username}}
+
+                                    </a>
+                                    <span class="font-mono font-semibold text-rosa">
+                                        {{ room.like.all.count }} Like
+                                    </span>
+
+                            </p>
+
+                    </div>
+
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+
+</div>
+
+{% endblock %}
+    
+
+

@@ -1,0 +1,67 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+search for {{query}}
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="mt-6 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+        <div class="w-full rounded-lg max-w-md bg-oscuro">
+            <div class="p-6 space-y-4">
+                <h1 class="text-2xl font-bold mb-6">Results for "{{ query }}"</h1>
+            </div>
+
+        </div>
+
+    </div>
+    
+    {% for room in rooms %}
+        
+    
+        
+    <div class="mt-6 flex flex-col items-center justify-center px-6 py-8 mx-auto">
+        <div class="w-full rounded-lg max-w-md bg-green-900">
+            <div class="p-6 space-y-4">
+                <h1 class="text-xl p-2 text-center font-mono font-semibold text-blue-300">
+                    {{ room.name}}
+
+            </h1>
+            <div class="flex justify-center">
+                    <a href="{% url 'room' room.id %}" class="p-3 font-mono font-semibold text-blue-300 rounded-lg bg-red-500">   Enter  </a>
+                    <form class="ml-2" method="POST" action="">
+                            {% csrf_token %}
+                            <input type="hidden">
+                            <button type="submit">
+                                    <img width="40" height="40" src="{% static 'images/heart.png' %}" alt="">
+                            </button>
+                            <button type="submit">
+                                    <img width="40" height="40" src="{% static 'images/love.png' %}" alt="">
+
+                            </button>
+                    </form>
+
+            </div>
+            <div class="flex justify-center">
+                    <p class="text-sm font-mono font-semibold p-2 text-blue-300">
+                            Host:
+                            <a class="text-sm font-mono hover:text-green-300 font-semibold text-blue-300" href="">
+                                    {{ room.user.username }}
+
+                            </a>
+                            <span class="font-mono font-semibold text-rosa">
+                                    34 Like
+                            </span>
+
+                    </p>
+
+            </div>
+            </div>
+
+        </div>
+
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
